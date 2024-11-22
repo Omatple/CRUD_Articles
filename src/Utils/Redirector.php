@@ -2,7 +2,7 @@
 
 namespace MyApp\Utils;
 
-class UtilsSession
+class Redirector
 {
     public static function redirectTo(string $urlPage)
     {

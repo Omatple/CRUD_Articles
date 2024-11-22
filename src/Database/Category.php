@@ -11,12 +11,16 @@ class Category extends QueryExecutor
 
     public static function read(): array
     {
-        return parent::executeQuery("SELECT * FROM Categories", "Error reading categories")->fetchAll();
+        return parent::executeQuery(
+            "SELECT * FROM Categories",
+            "Failed to retrieve categories. Verify the database connection and query"
+
+        )->fetchAll();
     }
 
     public function create(): void
     {
-        parent::executeQuery("INSERT INTO Categories (name) VALUES (:n)", "Failed to create category {$this->name}", [
+        parent::executeQuery("INSERT INTO Categories (name) VALUES (:n)", "Unable to create the category '{$this->name}'. Ensure the name is valid and the database connection is working", [
             ":n" => $this->name,
         ]);
     }
@@ -47,7 +51,7 @@ class Category extends QueryExecutor
 
     public static function getCategoriesId(): array
     {
-        $result = parent::executeQuery("SELECT id FROM Categories", "Failed to fetch category IDs");
+        $result = parent::executeQuery("SELECT id FROM Categories", "Unable to retrieve category IDs. Verify the database connection and ensure the 'Categories' table contains valid data");
         $ids = [];
         while ($row = $result->fetch()) {
             if (isset($row["id"])) $ids[] = $row["id"];

@@ -49,13 +49,25 @@ class Article extends QueryExecutor
     {
         parent::executeQuery(
             "UPDATE Articles SET name = :n, description = :d, availability = :a, category_id = :c WHERE id = :i",
-            "Failed to delete the article. Please verify the article ID and database connection.",
+            "Failed to update the article. Please verify the article ID and database connection.",
             [
                 ":i" => $id,
                 ":n" => $this->name,
                 ":d" => $this->description,
                 ":a" => $this->availability,
                 ":c" => $this->category_id,
+            ]
+        );
+    }
+
+    public static function updateAvailability(int $id, string $availability): void
+    {
+        parent::executeQuery(
+            "UPDATE Articles SET availability = :a WHERE id = :i",
+            "Failed to update the article availability. Please verify the article ID and database connection.",
+            [
+                ":i" => $id,
+                ":a" => $availability,
             ]
         );
     }
@@ -158,7 +170,7 @@ class Article extends QueryExecutor
      */
     public function setAvailability(string $availability): self
     {
-        $this->availability = $availability;
+        $this->availability = strtoupper($availability);
 
         return $this;
     }

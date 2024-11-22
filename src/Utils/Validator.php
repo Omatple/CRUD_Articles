@@ -2,9 +2,9 @@
 
 namespace MyApp\Utils;
 
-class UtilsValidator
+class Validator
 {
-    public static function validateLength(string $chain, int $minChars, int $maxChars)
+    public static function validateStringLength(string $chain, int $minChars, int $maxChars)
     {
         return (strlen($chain) >= $minChars && strlen($chain) <= $maxChars);
     }

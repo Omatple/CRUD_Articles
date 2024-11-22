@@ -2,9 +2,9 @@
 
 namespace MyApp\Utils;
 
-class HandlerErrorDisplay
+class ErrorDisplay
 {
-    public static function displayError(string $errorName)
+    public static function displaySessionError(string $errorName)
     {
         if (isset($_SESSION["error_$errorName"])) {
             echo "<p class='text-red-700 bold text-xs'>{$_SESSION["error_$errorName"]}</p>";

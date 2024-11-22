@@ -2,9 +2,9 @@
 
 namespace MyApp\Utils;
 
-class HandlerSweetAlert
+class SweetAlertDisplay
 {
-    public static function DisplaySweetAlert()
+    public static function showSessionSweetAlert()
     {
         $message = $_SESSION["message"] ?? false;
         if ($message) {

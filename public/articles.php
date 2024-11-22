@@ -1,15 +1,17 @@
 <?php
 
 use MyApp\Database\Article;
-use MyApp\Utils\HandlerErrorDisplay;
-use MyApp\Utils\HandlerSweetAlert;
+use MyApp\Utils\SweetAlertDisplay;
 
 session_start();
 
 require __DIR__ . "/../vendor/autoload.php";
 
+if (($id = filter_input(INPUT_POST, "id", FILTER_VALIDATE_INT)) && ($article = Article::getArticleById($id))) {
+    $availability = ($article["availability"] === "YES") ? "NO" : "YES";
+    Article::updateAvailability($id, $availability);
+}
 $articles = Article::read();
-
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -26,11 +28,9 @@ $articles = Article::read();
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- CDN Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- CDN FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
-<body>
+<body class="bg-gray-50 dark:bg-gray-900 antialiased">
     <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5 antialiased">
         <div class="mt-12 flex justify-center">
             <h2
@@ -46,7 +46,7 @@ $articles = Article::read();
                             <svg class="h-3.5 w-3.5 mr-1.5 -ml-1" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                 <path clip-rule="evenodd" fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" />
                             </svg>
-                            Add product
+                            Add article
                         </a>
                     </div>
                 </div>
@@ -79,6 +79,7 @@ $articles = Article::read();
                                             <td class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                 <div class="flex items-center">
                                                     <form action="{$_SERVER['PHP_SELF']}" method="POST">
+                                                        <input type="hidden" name="id" value="{$article['id']}"/>                                
                                                         <button type="submit" data-modal-target="availability-modal" data-modal-toggle="availability-modal" class="flex items-center text-primary-700 hover:text-white hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-3 py-2 text-center dark:text-primary-500 dark:hover:text-white dark:hover:bg-primary-600 dark:focus:ring-primary-900">
                                                             <div class="h-4 w-4 rounded-full inline-block mr-2 bg-$textColorAvailability-700"></div>
                                                             $availability
@@ -118,6 +119,6 @@ $articles = Article::read();
         </div>
 </body>
 
-<?= HandlerSweetAlert::DisplaySweetAlert() ?>
+<?= SweetAlertDisplay::showSessionSweetAlert() ?>
 
 </html>
