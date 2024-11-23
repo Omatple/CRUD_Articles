@@ -55,7 +55,7 @@ CRUD_Articles/
 
 2. Configura tu entorno local:
    - Descarga e instala [XAMPP](https://www.apachefriends.org/).
-   - Crea una base de datos en MySQL e importa el archivo `database.sql`.
+   - Crea una base de datos en MySQL e importa el archivo `tables.sql`.
 
 3. Configura el archivo `.env` con tus credenciales de base de datos:
    ```env
